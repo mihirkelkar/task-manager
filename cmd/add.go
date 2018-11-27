@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/mihirkelkar/task/db"
 	"github.com/spf13/cobra"
 )
 
@@ -13,9 +14,11 @@ var addCmd = &cobra.Command{
 	Long: `A Fast and Flexible Task Manger built with
                 love by mihirkelkar and friends in Go`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
 		task := strings.Join(args, " ")
-		fmt.Printf("Added %s to your task list.\n", task)
+		_, err := db.CreateTask(task)
+		if err != nil {
+			fmt.Println("Something went wrong while adding task")
+		}
 	},
 }
 

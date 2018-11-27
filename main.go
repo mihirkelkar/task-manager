@@ -3,13 +3,18 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/mihirkelkar/task/cmd"
 	"github.com/mihirkelkar/task/db"
+	homedir "github.com/mitchellh/go-homedir"
 )
 
 func main() {
-	err := db.Init("tasks.db")
+	home, err := homedir.Dir()
+	dbPath := filepath.Join(home, "tasks.db")
+	must(db.Init(dbPath))
+	db.AllTasks()
 	if err != nil {
 		panic(err)
 	}
